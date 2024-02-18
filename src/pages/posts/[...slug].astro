@@ -1,6 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import MarkdownPostLayout from '../../layouts/MarkdownPostLayout.astro';
+type BlogEntry = {
+  slug: string;
+  render: () => Promise<{Content: any}>;
+  data: any;
+};
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts');
@@ -8,6 +13,7 @@ export async function getStaticPaths() {
     params: { slug: entry.slug }, props: { entry },
   }));
 }
+
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
